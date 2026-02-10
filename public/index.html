@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Posesión Efectiva - Chile</title>
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2c5282;
+      --secondary: #ed8936;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-light: #718096;
+      --border: #e2e8f0;
+      --success: #38a169;
+      --error: #e53e3e;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      margin-bottom: 30px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    
+    header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+    
+    .section {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+    
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    
+    .form-group.half-width {
+      grid-column: span 2;
+    }
+    
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+    
+    input, select, textarea {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: white;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+    }
+    
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    .rut-group {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    
+    .rut-group input:first-child {
+      flex: 1;
+    }
+    
+    .rut-group span {
+      font-weight: bold;
+    }
+    
+    .rut-group input:last-child {
+      width: 50px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    
+    /* Tabla de herederos */
+    .herederos-container {
+      overflow-x: auto;
+    }
+    
+    .herederos-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      min-width: 1200px;
+    }
+    
+    .herederos-table th {
+      background: var(--primary);
+      color: white;
+      padding: 10px 8px;
+      text-align: left;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    
+    .herederos-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    
+    .herederos-table input {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 0.85rem;
+    }
+    
+    .herederos-table tr:hover {
+      background: #f8fafc;
+    }
+    
+    /* Tabla de bienes */
+    .bienes-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-bottom: 15px;
+    }
+    
+    .bienes-table th {
+      background: #edf2f7;
+      color: var(--text);
+      padding: 10px 8px;
+      text-align: left;
+      font-weight: 500;
+      border-bottom: 2px solid var(--border);
+    }
+    
+    .bienes-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .bienes-table input {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 0.85rem;
+    }
+    
+    .total-row {
+      background: #edf2f7;
+      font-weight: 600;
+    }
+    
+    .total-row td {
+      padding: 12px 8px;
+    }
+    
+    /* Botones */
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #dd6b20;
+    }
+    
+    .btn-outline {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-add {
+      background: var(--success);
+      color: white;
+      padding: 8px 15px;
+      font-size: 0.85rem;
+    }
+    
+    .btn-remove {
+      background: var(--error);
+      color: white;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+    }
+    
+    /* Radio/Checkbox group */
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-weight: normal;
+      color: var(--text);
+    }
+    
+    .radio-group input {
+      width: auto;
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    
+    .tab.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .tab:hover:not(.active) {
+      background: #edf2f7;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Loading */
+    .loading {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .loading.show {
+      display: flex;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #fff;
+      border-top-color: var(--secondary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      background: var(--success);
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1001;
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .toast.error {
+      background: var(--error);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+      
+      .section {
+        padding: 15px;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    /* Print */
+    @media print {
+      header, .btn-group, .tabs {
+        display: none;
+      }
+      
+      .section {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📋 Solicitud de Posesión Efectiva</h1>
+    <p>Servicio de Registro Civil e Identificación de Chile</p>
+  </header>
+  
+  <div class="container">
+    <form id="posesionForm">
+      <!-- Tabs de navegación -->
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="datos">👤 Datos Personales</button>
+        <button type="button" class="tab" data-tab="herederos">👨‍👩‍👧‍👦 Herederos</button>
+        <button type="button" class="tab" data-tab="bienes">🏠 Bienes</button>
+        <button type="button" class="tab" data-tab="pasivos">💳 Pasivos</button>
+      </div>
+      
+      <!-- TAB: DATOS PERSONALES -->
+      <div id="tab-datos" class="tab-content active">
+        <!-- Datos de Oficina -->
+        <div class="section">
+          <h2 class="section-title">Datos de Oficina</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Oficina</label>
+              <input type="text" name="oficina" placeholder="Ej: Santiago">
+            </div>
+            <div class="form-group">
+              <label>Número</label>
+              <input type="text" name="numero" placeholder="N° de solicitud">
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <input type="date" name="fecha">
+            </div>
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="time" name="hora">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Datos del Solicitante -->
+        <div class="section">
+          <h2 class="section-title">Datos del Solicitante</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>RUT</label>
+              <div class="rut-group">
+                <input type="text" name="solicitante.rut" placeholder="12345678-9" maxlength="12">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Nacionalidad</label>
+              <select name="solicitante.nacionalidad">
+                <option value="1">Chileno</option>
+                <option value="2">Extranjero</option>
+              </select>
+            </div>
+            <div class="form-group half-width">
+              <label>Nombres</label>
+              <input type="text" name="solicitante.nombres" placeholder="Nombres completos">
+            </div>
+            <div class="form-group">
+              <label>Primer Apellido</label>
+              <input type="text" name="solicitante.primer_apellido">
+            </div>
+            <div class="form-group">
+              <label>Segundo Apellido</label>
+              <input type="text" name="solicitante.segundo_apellido">
+            </div>
+            <div class="form-group half-width">
+              <label>Calle</label>
+              <input type="text" name="solicitante.calle">
+            </div>
+            <div class="form-group">
+              <label>Número</label>
+              <input type="text" name="solicitante.numero_calle">
+            </div>
+            <div class="form-group">
+              <label>Letra/Depto</label>
+              <input type="text" name="solicitante.letra">
+            </div>
+            <div class="form-group full-width">
+              <label>Resto de Domicilio (Villa, Block, etc.)</label>
+              <input type="text" name="solicitante.resto_domicilio">
+            </div>
+            <div class="form-group">
+              <label>Comuna</label>
+              <input type="text" name="solicitante.comuna">
+            </div>
+            <div class="form-group">
+              <label>Región</label>
+              <input type="text" name="solicitante.region">
+            </div>
+            <div class="form-group">
+              <label>Medio de Contacto</label>
+              <select name="solicitante.medio_contacto">
+                <option value="1">Domicilio</option>
+                <option value="2">Correo Electrónico</option>
+                <option value="3">Teléfono</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Correo Electrónico</label>
+              <input type="email" name="solicitante.correo">
+            </div>
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="tel" name="solicitante.telefono" placeholder="+56 9 1234 5678">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Datos del Causante -->
+        <div class="section">
+          <h2 class="section-title">Datos del Causante (Fallecido)</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>RUT</label>
+              <input type="text" name="causante.rut" placeholder="12345678-9" maxlength="12">
+            </div>
+            <div class="form-group">
+              <label>Fecha de Nacimiento</label>
+              <input type="date" name="causante.fecha_nacimiento">
+            </div>
+            <div class="form-group half-width">
+              <label>Nombres</label>
+              <input type="text" name="causante.nombres">
+            </div>
+            <div class="form-group">
+              <label>Primer Apellido</label>
+              <input type="text" name="causante.primer_apellido">
+            </div>
+            <div class="form-group">
+              <label>Segundo Apellido</label>
+              <input type="text" name="causante.segundo_apellido">
+            </div>
+            <div class="form-group">
+              <label>Fecha de Defunción</label>
+              <input type="date" name="causante.fecha_defuncion">
+            </div>
+            <div class="form-group">
+              <label>Estado Civil</label>
+              <select name="causante.estado_civil">
+                <option value="">Seleccione...</option>
+                <option value="1">Soltero/a</option>
+                <option value="2">Casado/a</option>
+                <option value="3">Viudo/a</option>
+                <option value="4">Divorciado/a</option>
+                <option value="5">Conviviente Civil</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nacionalidad</label>
+              <select name="causante.nacionalidad">
+                <option value="1">Chileno/a</option>
+                <option value="2">Extranjero/a</option>
+              </select>
+            </div>
+            <div class="form-group half-width">
+              <label>Actividad, Profesión u Oficio</label>
+              <input type="text" name="causante.actividad">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Partida de Defunción -->
+        <div class="section">
+          <h2 class="section-title">Partida de Defunción</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Circunscripción</label>
+              <input type="text" name="partida.circunscripcion">
+            </div>
+            <div class="form-group">
+              <label>Tipo de Registro</label>
+              <input type="text" name="partida.tipo_registro">
+            </div>
+            <div class="form-group">
+              <label>Año</label>
+              <input type="text" name="partida.ano" maxlength="4">
+            </div>
+            <div class="form-group">
+              <label>N° Inscripción</label>
+              <input type="text" name="partida.n_inscripcion">
+            </div>
+            <div class="form-group half-width">
+              <label>Lugar de la Defunción</label>
+              <input type="text" name="partida.lugar_defuncion">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Último Domicilio del Causante -->
+        <div class="section">
+          <h2 class="section-title">Último Domicilio del Causante</h2>
+          <div class="form-grid">
+            <div class="form-group half-width">
+              <label>Calle</label>
+              <input type="text" name="domicilio_causante.calle">
+            </div>
+            <div class="form-group">
+              <label>Número</label>
+              <input type="text" name="domicilio_causante.numero">
+            </div>
+            <div class="form-group">
+              <label>Letra/Depto</label>
+              <input type="text" name="domicilio_causante.letra">
+            </div>
+            <div class="form-group full-width">
+              <label>Resto de Domicilio</label>
+              <input type="text" name="domicilio_causante.resto">
+            </div>
+            <div class="form-group">
+              <label>Comuna</label>
+              <input type="text" name="domicilio_causante.comuna">
+            </div>
+            <div class="form-group">
+              <label>Región</label>
+              <input type="text" name="domicilio_causante.region">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Régimen Patrimonial -->
+        <div class="section">
+          <h2 class="section-title">Régimen Patrimonial</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Régimen</label>
+              <select name="regimen_patrimonial">
+                <option value="">No aplica</option>
+                <option value="1">Sociedad Conyugal</option>
+                <option value="2">Separación de Bienes</option>
+                <option value="3">Participación en los Gananciales</option>
+                <option value="4">Gananciales</option>
+                <option value="5">Matrimonio en extranjero</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Subinscripciones Matrimonio</label>
+              <select name="subinscripciones">
+                <option value="">No aplica</option>
+                <option value="1">Nulidad de matrimonio</option>
+                <option value="2">Separación de Bienes después del matrimonio</option>
+                <option value="3">Participación en los gananciales después del matrimonio</option>
+                <option value="4">Divorcio sin disolución de vínculo</option>
+                <option value="5">Divorcio con disolución de vínculo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Datos del Representante -->
+        <div class="section">
+          <h2 class="section-title">Datos del Representante o Cesionario (opcional)</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>RUT Representante</label>
+              <input type="text" name="representante.rut" placeholder="12345678-9" maxlength="12">
+            </div>
+            <div class="form-group">
+              <label>Tipo Representante</label>
+              <select name="representante.tipo">
+                <option value="">No aplica</option>
+                <option value="1">Legal</option>
+                <option value="2">Voluntario</option>
+                <option value="3">Judicial</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>¿Es Cesionario?</label>
+              <select name="representante.cesionario">
+                <option value="2">No</option>
+                <option value="1">Sí</option>
+              </select>
+            </div>
+            <div class="form-group half-width">
+              <label>Nombres</label>
+              <input type="text" name="representante.nombres">
+            </div>
+            <div class="form-group">
+              <label>Primer Apellido</label>
+              <input type="text" name="representante.primer_apellido">
+            </div>
+            <div class="form-group">
+              <label>Segundo Apellido</label>
+              <input type="text" name="representante.segundo_apellido">
+            </div>
+            <div class="form-group half-width">
+              <label>Calle</label>
+              <input type="text" name="representante.calle">
+            </div>
+            <div class="form-group">
+              <label>Número</label>
+              <input type="text" name="representante.numero_calle">
+            </div>
+            <div class="form-group">
+              <label>Letra/Depto</label>
+              <input type="text" name="representante.letra">
+            </div>
+            <div class="form-group full-width">
+              <label>Resto de Domicilio</label>
+              <input type="text" name="representante.resto_domicilio">
+            </div>
+            <div class="form-group">
+              <label>Comuna</label>
+              <input type="text" name="representante.comuna">
+            </div>
+            <div class="form-group">
+              <label>Región</label>
+              <input type="text" name="representante.region">
+            </div>
+            <div class="form-group">
+              <label>Documento Fundante</label>
+              <select name="representante.documento_fundante">
+                <option value="">No aplica</option>
+                <option value="1">Instrumento Privado</option>
+                <option value="2">Escritura Pública</option>
+                <option value="3">Sentencia Judicial</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Autorizante</label>
+              <input type="text" name="representante.autorizante">
+            </div>
+            <div class="form-group">
+              <label>Fecha Documento</label>
+              <input type="date" name="representante.fecha_doc">
+            </div>
+            <div class="form-group">
+              <label>Correo Electrónico</label>
+              <input type="email" name="representante.correo">
+            </div>
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="tel" name="representante.telefono">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- TAB: HEREDEROS -->
+      <div id="tab-herederos" class="tab-content">
+        <div class="section">
+          <h2 class="section-title">Datos de los Herederos</h2>
+          <p style="color: var(--text-light); margin-bottom: 15px;">Ingrese los datos de todos los herederos (máximo 20). Use el botón "Agregar Heredero" para añadir más filas.</p>
+          
+          <div class="herederos-container">
+            <table class="herederos-table" id="herederosTable">
+              <thead>
+                <tr>
+                  <th style="width:30px">N°</th>
+                  <th style="width:100px">RUT</th>
+                  <th style="width:120px">Nombres</th>
+                  <th style="width:100px">1° Apellido</th>
+                  <th style="width:100px">2° Apellido</th>
+                  <th style="width:100px">F. Nacimiento</th>
+                  <th style="width:100px">F. Defunción</th>
+                  <th style="width:80px">Calidad</th>
+                  <th style="width:90px">RUN Rep.</th>
+                  <th style="width:100px">Domicilio</th>
+                  <th style="width:80px">Comuna</th>
+                  <th style="width:80px">Región</th>
+                  <th style="width:50px">Cedente</th>
+                  <th style="width:40px"></th>
+                </tr>
+              </thead>
+              <tbody id="herederosBody">
+                <!-- Filas dinámicas -->
+              </tbody>
+            </table>
+          </div>
+          
+          <button type="button" class="btn btn-add" onclick="agregarHeredero()" style="margin-top:15px">
+            ➕ Agregar Heredero
+          </button>
+          
+          <div style="margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 8px;">
+            <label><strong>Calidad del Heredero:</strong></label>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 5px;">
+              C = Cónyuge/Conviviente Civil | H = Hijo/a | N = Nieto/a | P = Padre/Madre | 
+              A = Abuelo/a | HE = Hermano/a | S = Sobrino/a | T = Tío/a | PR = Primo/a | O = Otro
+            </p>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2 class="section-title">Observaciones</h2>
+          <div class="form-group full-width">
+            <textarea name="observaciones" rows="4" placeholder="Ingrese observaciones adicionales si las hubiere..."></textarea>
+          </div>
+        </div>
+      </div>
+      
+      <!-- TAB: BIENES -->
+      <div id="tab-bienes" class="tab-content">
+        <!-- Opciones de inventario -->
+        <div class="section">
+          <h2 class="section-title">Opciones de Inventario</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>N° de Hojas del Inventario</label>
+              <input type="number" name="inventario_hojas" value="1" min="1">
+            </div>
+            <div class="form-group">
+              <label>¿Acepta con Beneficio de Inventario?</label>
+              <div class="radio-group">
+                <label><input type="radio" name="beneficio_inventario" value="1" checked> Sí</label>
+                <label><input type="radio" name="beneficio_inventario" value="2"> No</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>¿Aplica Presunción 20% Menaje?</label>
+              <div class="radio-group">
+                <label><input type="radio" name="presuncion_20" value="1"> Sí</label>
+                <label><input type="radio" name="presuncion_20" value="2" checked> No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bienes Raíces -->
+        <div class="section">
+          <h2 class="section-title">A1. Bienes Raíces</h2>
+          <p style="color: var(--text-light); margin-bottom: 10px; font-size: 0.85rem;">
+            Tipo: A = Agrícola, N = No Agrícola | P/S: P = Bien Propio, S = Bien Social
+          </p>
+          <table class="bienes-table" id="bienesRaicesTable">
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Tipo</th>
+                <th>ROL SII</th>
+                <th>Comuna</th>
+                <th>F. Adquisición</th>
+                <th>Fojas</th>
+                <th>N° CBR</th>
+                <th>Año CBR</th>
+                <th>Conservador</th>
+                <th>P/S</th>
+                <th>Valoración $</th>
+                <th>Exención $</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="bienesRaicesBody"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="10" style="text-align:right"><strong>TOTAL BIENES RAÍCES:</strong></td>
+                <td id="totalBienesRaices">$0</td>
+                <td id="totalExencionBR">$0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-add" onclick="agregarBienRaiz()">➕ Agregar Bien Raíz</button>
+        </div>
+        
+        <!-- Vehículos -->
+        <div class="section">
+          <h2 class="section-title">B1. Bienes Muebles - Vehículos</h2>
+          <table class="bienes-table" id="vehiculosTable">
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>PPU</th>
+                <th>Código SII</th>
+                <th>Tipo</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>N° Identificación</th>
+                <th>P/S</th>
+                <th>Valoración $</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="vehiculosBody"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="9" style="text-align:right"><strong>TOTAL VEHÍCULOS:</strong></td>
+                <td id="totalVehiculos">$0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-add" onclick="agregarVehiculo()">➕ Agregar Vehículo</button>
+        </div>
+        
+        <!-- Menaje -->
+        <div class="section">
+          <h2 class="section-title">B2. Bienes Muebles - Menaje</h2>
+          <table class="bienes-table" id="menajeTable">
+            <thead>
+              <tr>
+                <th style="width:40px">N°</th>
+                <th>Descripción del Bien</th>
+                <th style="width:60px">P/S</th>
+                <th style="width:120px">Valoración $</th>
+                <th style="width:40px"></th>
+              </tr>
+            </thead>
+            <tbody id="menajeBody"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="3" style="text-align:right"><strong>TOTAL MENAJE:</strong></td>
+                <td id="totalMenaje">$0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-add" onclick="agregarMenaje()">➕ Agregar Menaje</button>
+        </div>
+        
+        <!-- Otros Bienes Muebles -->
+        <div class="section">
+          <h2 class="section-title">C2. Otros Bienes Muebles (Negocios, Empresas, Derechos, Cuotas)</h2>
+          <table class="bienes-table" id="otrosMueblesTable">
+            <thead>
+              <tr>
+                <th style="width:40px">N°</th>
+                <th>Descripción del Bien</th>
+                <th style="width:60px">P/S</th>
+                <th style="width:120px">Valoración $</th>
+                <th style="width:40px"></th>
+              </tr>
+            </thead>
+            <tbody id="otrosMueblesBody"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="3" style="text-align:right"><strong>TOTAL OTROS MUEBLES:</strong></td>
+                <td id="totalOtrosMuebles">$0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-add" onclick="agregarOtroMueble()">➕ Agregar Otro Bien Mueble</button>
+        </div>
+        
+        <!-- Otros Bienes (acciones, valores) -->
+        <div class="section">
+          <h2 class="section-title">C3. Otros Bienes (Acciones, Valores, Depósitos, Bonos)</h2>
+          <table class="bienes-table" id="otrosBienesTable">
+            <thead>
+              <tr>
+                <th style="width:40px">N°</th>
+                <th>Descripción</th>
+                <th>Institución</th>
+                <th>N° Certificado</th>
+                <th style="width:50px">P/S</th>
+                <th style="width:100px">Valoración $</th>
+                <th style="width:100px">Exención $</th>
+                <th style="width:40px"></th>
+              </tr>
+            </thead>
+            <tbody id="otrosBienesBody"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="5" style="text-align:right"><strong>TOTAL OTROS BIENES:</strong></td>
+                <td id="totalOtrosBienes">$0</td>
+                <td id="totalExencionOB">$0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-add" onclick="agregarOtroBien()">➕ Agregar Otro Bien</button>
+        </div>
+      </div>
+      
+      <!-- TAB: PASIVOS -->
+      <div id="tab-pasivos" class="tab-content">
+        <div class="section">
+          <h2 class="section-title">2. Pasivos - Deudas Acreditadas</h2>
+          <table class="bienes-table" id="pasivosTable">
+            <thead>
+              <tr>
+                <th style="width:40px">N°</th>
+                <th>Descripción de la Deuda</th>
+                <th>Acreedor</th>
+                <th>N° Documento o Certificado</th>
+                <th style="width:120px">Valoración $</th>
+                <th style="width:40px"></th>
+              </tr>
+            </thead>
+            <tbody id="pasivosBody"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="4" style="text-align:right"><strong>TOTAL PASIVOS:</strong></td>
+                <td id="totalPasivos">$0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-add" onclick="agregarPasivo()">➕ Agregar Pasivo</button>
+        </div>
+        
+        <!-- Declaración Impuesto -->
+        <div class="section">
+          <h2 class="section-title">Declaración Exento/Afecto Impuesto a las Herencias</h2>
+          <div class="form-group">
+            <label>Según la valoración de bienes, las asignaciones resultan:</label>
+            <div class="radio-group" style="flex-direction: column; gap: 10px; margin-top: 10px;">
+              <label><input type="radio" name="declaracion_impuesto" value="exentas" checked> Exentas todas las asignaciones</label>
+              <label><input type="radio" name="declaracion_impuesto" value="afectas_algunas"> Afectas algunas de las asignaciones</label>
+              <label><input type="radio" name="declaracion_impuesto" value="afectas_todas"> Afectas todas las asignaciones</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Resumen -->
+        <div class="section" style="background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);">
+          <h2 class="section-title">Resumen de Masa Hereditaria</h2>
+          <div class="form-grid" style="max-width: 400px;">
+            <div class="form-group">
+              <label>Total Activos</label>
+              <input type="text" id="resumenActivos" readonly style="font-weight:bold; font-size:1.1rem;">
+            </div>
+            <div class="form-group">
+              <label>Total Pasivos</label>
+              <input type="text" id="resumenPasivos" readonly style="font-weight:bold; font-size:1.1rem;">
+            </div>
+            <div class="form-group full-width">
+              <label>= MASA HEREDITARIA</label>
+              <input type="text" id="resumenMasa" readonly style="font-weight:bold; font-size:1.3rem; color: var(--primary);">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botones de acción -->
+      <div class="section">
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary">
+            📄 Generar PDF
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="guardarBorrador()">
+            💾 Guardar Borrador
+          </button>
+          <button type="button" class="btn btn-outline" onclick="cargarBorrador()">
+            📂 Cargar Borrador
+          </button>
+          <button type="button" class="btn btn-outline" onclick="limpiarFormulario()">
+            🗑️ Limpiar Todo
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Loading overlay -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+  </div>
+  
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Variables globales
+    let herederoCount = 0;
+    let bienRaizCount = 0;
+    let vehiculoCount = 0;
+    let menajeCount = 0;
+    let otroMuebleCount = 0;
+    let otroBienCount = 0;
+    let pasivoCount = 0;
+    
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+      // Agregar primera fila de herederos
+      agregarHeredero();
+      
+      // Configurar tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+        });
+      });
+      
+      // Configurar formulario
+      document.getElementById('posesionForm').addEventListener('submit', generarPDF);
+      
+      // Establecer fecha actual
+      const hoy = new Date().toISOString().split('T')[0];
+      document.querySelector('input[name="fecha"]').value = hoy;
+    });
+    
+    // Funciones para agregar filas dinámicas
+    function agregarHeredero() {
+      if (herederoCount >= 20) {
+        showToast('Máximo 20 herederos permitidos', true);
+        return;
+      }
+      herederoCount++;
+      const tbody = document.getElementById('herederosBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${herederoCount}</td>
+        <td><input type="text" name="herederos[${herederoCount-1}].rut" placeholder="12345678-9"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].nombres"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].primer_apellido"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].segundo_apellido"></td>
+        <td><input type="date" name="herederos[${herederoCount-1}].fecha_nacimiento"></td>
+        <td><input type="date" name="herederos[${herederoCount-1}].fecha_defuncion"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].calidad" placeholder="H" maxlength="3"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].run_representacion"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].domicilio"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].comuna"></td>
+        <td><input type="text" name="herederos[${herederoCount-1}].region"></td>
+        <td>
+          <select name="herederos[${herederoCount-1}].cedente">
+            <option value="">-</option>
+            <option value="S">Sí</option>
+            <option value="N">No</option>
+          </select>
+        </td>
+        <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'heredero')">✕</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+    
+    function agregarBienRaiz() {
+      if (bienRaizCount >= 4) {
+        showToast('Máximo 4 bienes raíces en este formulario', true);
+        return;
+      }
+      bienRaizCount++;
+      const tbody = document.getElementById('bienesRaicesBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${bienRaizCount}</td>
+        <td><select name="bienes_raices[${bienRaizCount-1}].tipo"><option value="N">N</option><option value="A">A</option></select></td>
+        <td><input type="text" name="bienes_raices[${bienRaizCount-1}].rol_sii" placeholder="123-45"></td>
+        <td><input type="text" name="bienes_raices[${bienRaizCount-1}].comuna"></td>
+        <td><input type="date" name="bienes_raices[${bienRaizCount-1}].fecha_adquisicion"></td>
+        <td><input type="text" name="bienes_raices[${bienRaizCount-1}].fojas"></td>
+        <td><input type="text" name="bienes_raices[${bienRaizCount-1}].numero_cbr"></td>
+        <td><input type="text" name="bienes_raices[${bienRaizCount-1}].ano_cbr" maxlength="4"></td>
+        <td><input type="text" name="bienes_raices[${bienRaizCount-1}].conservador"></td>
+        <td><select name="bienes_raices[${bienRaizCount-1}].ps"><option value="P">P</option><option value="S">S</option></select></td>
+        <td><input type="number" name="bienes_raices[${bienRaizCount-1}].valoracion" onchange="calcularTotales()"></td>
+        <td><input type="number" name="bienes_raices[${bienRaizCount-1}].exencion" onchange="calcularTotales()"></td>
+        <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'bienRaiz')">✕</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+    
+    function agregarVehiculo() {
+      if (vehiculoCount >= 4) {
+        showToast('Máximo 4 vehículos en este formulario', true);
+        return;
+      }
+      vehiculoCount++;
+      const tbody = document.getElementById('vehiculosBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${vehiculoCount}</td>
+        <td><input type="text" name="vehiculos[${vehiculoCount-1}].ppu" placeholder="ABCD12" maxlength="6"></td>
+        <td><input type="text" name="vehiculos[${vehiculoCount-1}].codigo_sii"></td>
+        <td><input type="text" name="vehiculos[${vehiculoCount-1}].tipo" placeholder="Auto"></td>
+        <td><input type="text" name="vehiculos[${vehiculoCount-1}].marca"></td>
+        <td><input type="text" name="vehiculos[${vehiculoCount-1}].modelo"></td>
+        <td><input type="text" name="vehiculos[${vehiculoCount-1}].ano" maxlength="4"></td>
+        <td><input type="text" name="vehiculos[${vehiculoCount-1}].n_identificacion"></td>
+        <td><select name="vehiculos[${vehiculoCount-1}].ps"><option value="P">P</option><option value="S">S</option></select></td>
+        <td><input type="number" name="vehiculos[${vehiculoCount-1}].valoracion" onchange="calcularTotales()"></td>
+        <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'vehiculo')">✕</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+    
+    function agregarMenaje() {
+      if (menajeCount >= 11) {
+        showToast('Máximo 11 items de menaje en este formulario', true);
+        return;
+      }
+      menajeCount++;
+      const tbody = document.getElementById('menajeBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${menajeCount}</td>
+        <td><input type="text" name="menaje[${menajeCount-1}].descripcion" placeholder="Descripción del bien"></td>
+        <td><select name="menaje[${menajeCount-1}].ps"><option value="P">P</option><option value="S">S</option></select></td>
+        <td><input type="number" name="menaje[${menajeCount-1}].valoracion" onchange="calcularTotales()"></td>
+        <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'menaje')">✕</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+    
+    function agregarOtroMueble() {
+      if (otroMuebleCount >= 4) {
+        showToast('Máximo 4 otros bienes muebles en este formulario', true);
+        return;
+      }
+      otroMuebleCount++;
+      const tbody = document.getElementById('otrosMueblesBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${otroMuebleCount}</td>
+        <td><input type="text" name="otros_muebles[${otroMuebleCount-1}].descripcion" placeholder="Descripción del bien"></td>
+        <td><select name="otros_muebles[${otroMuebleCount-1}].ps"><option value="P">P</option><option value="S">S</option></select></td>
+        <td><input type="number" name="otros_muebles[${otroMuebleCount-1}].valoracion" onchange="calcularTotales()"></td>
+        <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'otroMueble')">✕</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+    
+    function agregarOtroBien() {
+      if (otroBienCount >= 3) {
+        showToast('Máximo 3 otros bienes en este formulario', true);
+        return;
+      }
+      otroBienCount++;
+      const tbody = document.getElementById('otrosBienesBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${otroBienCount}</td>
+        <td><input type="text" name="otros_bienes[${otroBienCount-1}].descripcion"></td>
+        <td><input type="text" name="otros_bienes[${otroBienCount-1}].institucion"></td>
+        <td><input type="text" name="otros_bienes[${otroBienCount-1}].n_certificado"></td>
+        <td><select name="otros_bienes[${otroBienCount-1}].ps"><option value="P">P</option><option value="S">S</option></select></td>
+        <td><input type="number" name="otros_bienes[${otroBienCount-1}].valoracion" onchange="calcularTotales()"></td>
+        <td><input type="number" name="otros_bienes[${otroBienCount-1}].exencion" onchange="calcularTotales()"></td>
+        <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'otroBien')">✕</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+    
+    function agregarPasivo() {
+      if (pasivoCount >= 4) {
+        showToast('Máximo 4 pasivos en este formulario', true);
+        return;
+      }
+      pasivoCount++;
+      const tbody = document.getElementById('pasivosBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${pasivoCount}</td>
+        <td><input type="text" name="pasivos[${pasivoCount-1}].descripcion"></td>
+        <td><input type="text" name="pasivos[${pasivoCount-1}].acreedor"></td>
+        <td><input type="text" name="pasivos[${pasivoCount-1}].n_documento"></td>
+        <td><input type="number" name="pasivos[${pasivoCount-1}].valoracion" onchange="calcularTotales()"></td>
+        <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'pasivo')">✕</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+    
+    function eliminarFila(btn, tipo) {
+      btn.closest('tr').remove();
+      renumerarFilas(tipo);
+      calcularTotales();
+    }
+    
+    function renumerarFilas(tipo) {
+      const mapeo = {
+        'heredero': { body: 'herederosBody', counter: () => herederoCount = 0 },
+        'bienRaiz': { body: 'bienesRaicesBody', counter: () => bienRaizCount = 0 },
+        'vehiculo': { body: 'vehiculosBody', counter: () => vehiculoCount = 0 },
+        'menaje': { body: 'menajeBody', counter: () => menajeCount = 0 },
+        'otroMueble': { body: 'otrosMueblesBody', counter: () => otroMuebleCount = 0 },
+        'otroBien': { body: 'otrosBienesBody', counter: () => otroBienCount = 0 },
+        'pasivo': { body: 'pasivosBody', counter: () => pasivoCount = 0 }
+      };
+      
+      if (!mapeo[tipo]) return;
+      
+      mapeo[tipo].counter();
+      const rows = document.getElementById(mapeo[tipo].body).querySelectorAll('tr');
+      rows.forEach((row, i) => {
+        row.querySelector('td:first-child').textContent = i + 1;
+        if (tipo === 'heredero') herederoCount++;
+        else if (tipo === 'bienRaiz') bienRaizCount++;
+        else if (tipo === 'vehiculo') vehiculoCount++;
+        else if (tipo === 'menaje') menajeCount++;
+        else if (tipo === 'otroMueble') otroMuebleCount++;
+        else if (tipo === 'otroBien') otroBienCount++;
+        else if (tipo === 'pasivo') pasivoCount++;
+      });
+    }
+    
+    // Calcular totales
+    function calcularTotales() {
+      let totalBR = 0, totalExBR = 0;
+      let totalVeh = 0;
+      let totalMenaje = 0;
+      let totalOM = 0;
+      let totalOB = 0, totalExOB = 0;
+      let totalPas = 0;
+      
+      // Bienes raíces
+      document.querySelectorAll('[name^="bienes_raices"][name$="].valoracion"]').forEach(inp => {
+        totalBR += parseFloat(inp.value) || 0;
+      });
+      document.querySelectorAll('[name^="bienes_raices"][name$="].exencion"]').forEach(inp => {
+        totalExBR += parseFloat(inp.value) || 0;
+      });
+      
+      // Vehículos
+      document.querySelectorAll('[name^="vehiculos"][name$="].valoracion"]').forEach(inp => {
+        totalVeh += parseFloat(inp.value) || 0;
+      });
+      
+      // Menaje
+      document.querySelectorAll('[name^="menaje"][name$="].valoracion"]').forEach(inp => {
+        totalMenaje += parseFloat(inp.value) || 0;
+      });
+      
+      // Otros muebles
+      document.querySelectorAll('[name^="otros_muebles"][name$="].valoracion"]').forEach(inp => {
+        totalOM += parseFloat(inp.value) || 0;
+      });
+      
+      // Otros bienes
+      document.querySelectorAll('[name^="otros_bienes"][name$="].valoracion"]').forEach(inp => {
+        totalOB += parseFloat(inp.value) || 0;
+      });
+      document.querySelectorAll('[name^="otros_bienes"][name$="].exencion"]').forEach(inp => {
+        totalExOB += parseFloat(inp.value) || 0;
+      });
+      
+      // Pasivos
+      document.querySelectorAll('[name^="pasivos"][name$="].valoracion"]').forEach(inp => {
+        totalPas += parseFloat(inp.value) || 0;
+      });
+      
+      // Actualizar UI
+      document.getElementById('totalBienesRaices').textContent = formatMoney(totalBR);
+      document.getElementById('totalExencionBR').textContent = formatMoney(totalExBR);
+      document.getElementById('totalVehiculos').textContent = formatMoney(totalVeh);
+      document.getElementById('totalMenaje').textContent = formatMoney(totalMenaje);
+      document.getElementById('totalOtrosMuebles').textContent = formatMoney(totalOM);
+      document.getElementById('totalOtrosBienes').textContent = formatMoney(totalOB);
+      document.getElementById('totalExencionOB').textContent = formatMoney(totalExOB);
+      document.getElementById('totalPasivos').textContent = formatMoney(totalPas);
+      
+      // Resumen
+      const totalActivos = totalBR + totalVeh + totalMenaje + totalOM + totalOB;
+      const masa = totalActivos - totalPas;
+      
+      document.getElementById('resumenActivos').value = formatMoney(totalActivos);
+      document.getElementById('resumenPasivos').value = formatMoney(totalPas);
+      document.getElementById('resumenMasa').value = formatMoney(masa);
+    }
+    
+    function formatMoney(value) {
+      return '$' + Math.round(value).toLocaleString('es-CL');
+    }
+    
+    // Obtener datos del formulario
+    function getFormData() {
+      const form = document.getElementById('posesionForm');
+      const formData = new FormData(form);
+      const data = {};
+      
+      // Procesar campos simples y anidados
+      for (const [key, value] of formData.entries()) {
+        if (key.includes('[')) {
+          // Campos de arrays (herederos, bienes, etc.)
+          const match = key.match(/^(\w+)\[(\d+)\]\.(\w+)$/);
+          if (match) {
+            const [, arrayName, index, field] = match;
+            if (!data[arrayName]) data[arrayName] = [];
+            if (!data[arrayName][index]) data[arrayName][index] = {};
+            data[arrayName][index][field] = value;
+          }
+        } else if (key.includes('.')) {
+          // Campos anidados (solicitante.nombres, etc.)
+          const parts = key.split('.');
+          if (!data[parts[0]]) data[parts[0]] = {};
+          data[parts[0]][parts[1]] = value;
+        } else {
+          data[key] = value;
+        }
+      }
+      
+      // Limpiar arrays (quitar elementos vacíos)
+      ['herederos', 'bienes_raices', 'vehiculos', 'menaje', 'otros_muebles', 'otros_bienes', 'pasivos'].forEach(arrayName => {
+        if (data[arrayName]) {
+          data[arrayName] = data[arrayName].filter(item => item && Object.values(item).some(v => v));
+        }
+      });
+      
+      return data;
+    }
+    
+    // Generar PDF
+    async function generarPDF(e) {
+      e.preventDefault();
+      showLoading(true);
+      
+      try {
+        const data = getFormData();
+        console.log('Enviando datos:', data);
+        
+        const response = await fetch('/api/generar-pdf', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.details || 'Error al generar PDF');
+        }
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'posesion_efectiva_completada.pdf';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+        
+        showToast('✅ PDF generado exitosamente');
+      } catch (error) {
+        console.error('Error:', error);
+        showToast('Error: ' + error.message, true);
+      } finally {
+        showLoading(false);
+      }
+    }
+    
+    // Guardar borrador
+    async function guardarBorrador() {
+      showLoading(true);
+      try {
+        const data = getFormData();
+        const response = await fetch('/api/guardar-borrador', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+          showToast('✅ Borrador guardado: ' + result.filename);
+        } else {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        showToast('Error al guardar: ' + error.message, true);
+      } finally {
+        showLoading(false);
+      }
+    }
+    
+    // Cargar borrador
+    async function cargarBorrador() {
+      try {
+        const response = await fetch('/api/borradores');
+        const borradores = await response.json();
+        
+        if (borradores.length === 0) {
+          showToast('No hay borradores guardados', true);
+          return;
+        }
+        
+        const filename = prompt('Borradores disponibles:\n\n' + borradores.map((b, i) => `${i+1}. ${b.filename}`).join('\n') + '\n\nIngrese el número del borrador a cargar:');
+        
+        if (!filename) return;
+        
+        const index = parseInt(filename) - 1;
+        if (isNaN(index) || index < 0 || index >= borradores.length) {
+          showToast('Número inválido', true);
+          return;
+        }
+        
+        showLoading(true);
+        const dataResponse = await fetch('/api/cargar-borrador/' + borradores[index].filename);
+        const data = await dataResponse.json();
+        
+        // Llenar formulario con los datos
+        llenarFormulario(data);
+        showToast('✅ Borrador cargado');
+      } catch (error) {
+        showToast('Error al cargar: ' + error.message, true);
+      } finally {
+        showLoading(false);
+      }
+    }
+    
+    // Llenar formulario desde datos
+    function llenarFormulario(data) {
+      // Campos simples
+      Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string') {
+          const input = document.querySelector(`[name="${key}"]`);
+          if (input) {
+            if (input.type === 'radio') {
+              document.querySelector(`[name="${key}"][value="${data[key]}"]`).checked = true;
+            } else {
+              input.value = data[key];
+            }
+          }
+        } else if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
+          // Campos anidados
+          Object.keys(data[key]).forEach(subKey => {
+            const input = document.querySelector(`[name="${key}.${subKey}"]`);
+            if (input) input.value = data[key][subKey];
+          });
+        }
+      });
+      
+      // Arrays (herederos, bienes, etc.)
+      if (data.herederos) {
+        document.getElementById('herederosBody').innerHTML = '';
+        herederoCount = 0;
+        data.herederos.forEach((h, i) => {
+          agregarHeredero();
+          Object.keys(h).forEach(field => {
+            const input = document.querySelector(`[name="herederos[${i}].${field}"]`);
+            if (input) input.value = h[field];
+          });
+        });
+      }
+      
+      // Similar para otros arrays...
+      calcularTotales();
+    }
+    
+    // Limpiar formulario
+    function limpiarFormulario() {
+      if (!confirm('¿Está seguro de limpiar todo el formulario?')) return;
+      document.getElementById('posesionForm').reset();
+      document.getElementById('herederosBody').innerHTML = '';
+      document.getElementById('bienesRaicesBody').innerHTML = '';
+      document.getElementById('vehiculosBody').innerHTML = '';
+      document.getElementById('menajeBody').innerHTML = '';
+      document.getElementById('otrosMueblesBody').innerHTML = '';
+      document.getElementById('otrosBienesBody').innerHTML = '';
+      document.getElementById('pasivosBody').innerHTML = '';
+      
+      herederoCount = bienRaizCount = vehiculoCount = menajeCount = otroMuebleCount = otroBienCount = pasivoCount = 0;
+      agregarHeredero();
+      calcularTotales();
+      showToast('Formulario limpiado');
+    }
+    
+    // Utilidades UI
+    function showLoading(show) {
+      document.getElementById('loading').classList.toggle('show', show);
+    }
+    
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast' + (isError ? ' error' : '');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>
