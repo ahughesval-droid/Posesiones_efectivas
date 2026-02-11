@@ -16,13 +16,11 @@
       --border: #e2e8f0;
       --success: #38a169;
       --error: #e53e3e;
+      --warning: #d69e2e;
+      --disabled-bg: #edf2f7;
     }
     
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -31,11 +29,7 @@
       line-height: 1.5;
     }
     
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
     
     header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -47,15 +41,8 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     
-    header h1 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
-    
-    header p {
-      opacity: 0.9;
-      font-size: 0.95rem;
-    }
+    header h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    header p { opacity: 0.9; font-size: 0.95rem; }
     
     .section {
       background: var(--card-bg);
@@ -64,6 +51,28 @@
       margin-bottom: 20px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       border: 1px solid var(--border);
+      transition: opacity 0.3s, background 0.3s;
+    }
+    
+    .section.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      background: var(--disabled-bg);
+      position: relative;
+    }
+    
+    .section.disabled::after {
+      content: '⚠️ Deshabilitado por Presunción 20%';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--warning);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      z-index: 10;
     }
     
     .section-title {
@@ -92,18 +101,9 @@
       gap: 15px;
     }
     
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-    
-    .form-group.half-width {
-      grid-column: span 2;
-    }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    .form-group.half-width { grid-column: span 2; }
     
     label {
       font-size: 0.85rem;
@@ -127,74 +127,13 @@
       box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
     }
     
-    input[type="number"] {
-      -moz-appearance: textfield;
+    input:disabled, select:disabled {
+      background: var(--disabled-bg);
+      cursor: not-allowed;
     }
     
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+    .bienes-container { overflow-x: auto; }
     
-    .rut-group {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-    }
-    
-    .rut-group input:first-child {
-      flex: 1;
-    }
-    
-    .rut-group span {
-      font-weight: bold;
-    }
-    
-    .rut-group input:last-child {
-      width: 50px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-    
-    /* Tabla de herederos */
-    .herederos-container {
-      overflow-x: auto;
-    }
-    
-    .herederos-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      min-width: 1200px;
-    }
-    
-    .herederos-table th {
-      background: var(--primary);
-      color: white;
-      padding: 10px 8px;
-      text-align: left;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    
-    .herederos-table td {
-      padding: 8px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-    
-    .herederos-table input {
-      width: 100%;
-      padding: 6px 8px;
-      font-size: 0.85rem;
-    }
-    
-    .herederos-table tr:hover {
-      background: #f8fafc;
-    }
-    
-    /* Tabla de bienes */
     .bienes-table {
       width: 100%;
       border-collapse: collapse;
@@ -203,35 +142,35 @@
     }
     
     .bienes-table th {
-      background: #edf2f7;
-      color: var(--text);
+      background: var(--primary);
+      color: white;
       padding: 10px 8px;
       text-align: left;
       font-weight: 500;
-      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
     }
     
     .bienes-table td {
       padding: 8px;
       border-bottom: 1px solid var(--border);
+      vertical-align: top;
     }
     
-    .bienes-table input {
+    .bienes-table input, .bienes-table select {
       width: 100%;
       padding: 6px 8px;
       font-size: 0.85rem;
     }
+    
+    .bienes-table tr:hover { background: #f8fafc; }
     
     .total-row {
       background: #edf2f7;
       font-weight: 600;
     }
     
-    .total-row td {
-      padding: 12px 8px;
-    }
+    .total-row td { padding: 12px 8px; }
     
-    /* Botones */
     .btn-group {
       display: flex;
       gap: 15px;
@@ -252,57 +191,17 @@
       gap: 8px;
     }
     
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); }
+    .btn-secondary { background: var(--secondary); color: white; }
+    .btn-secondary:hover { background: #dd6b20; }
+    .btn-outline { background: white; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: white; }
+    .btn-add { background: var(--success); color: white; padding: 8px 15px; font-size: 0.85rem; }
+    .btn-remove { background: var(--error); color: white; padding: 4px 10px; font-size: 0.8rem; }
+    .btn-sm { padding: 6px 12px; font-size: 0.85rem; }
     
-    .btn-primary:hover {
-      background: var(--primary-light);
-      transform: translateY(-1px);
-    }
-    
-    .btn-secondary {
-      background: var(--secondary);
-      color: white;
-    }
-    
-    .btn-secondary:hover {
-      background: #dd6b20;
-    }
-    
-    .btn-outline {
-      background: white;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-    
-    .btn-outline:hover {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .btn-add {
-      background: var(--success);
-      color: white;
-      padding: 8px 15px;
-      font-size: 0.85rem;
-    }
-    
-    .btn-remove {
-      background: var(--error);
-      color: white;
-      padding: 4px 10px;
-      font-size: 0.8rem;
-    }
-    
-    /* Radio/Checkbox group */
-    .radio-group {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
+    .radio-group { display: flex; gap: 20px; flex-wrap: wrap; }
     .radio-group label {
       display: flex;
       align-items: center;
@@ -311,18 +210,9 @@
       font-weight: normal;
       color: var(--text);
     }
+    .radio-group input { width: auto; }
     
-    .radio-group input {
-      width: auto;
-    }
-    
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+    .tabs { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
     
     .tab {
       padding: 10px 20px;
@@ -334,41 +224,23 @@
       font-weight: 500;
     }
     
-    .tab.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
+    .tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .tab:hover:not(.active) { background: #edf2f7; }
     
-    .tab:hover:not(.active) {
-      background: #edf2f7;
-    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
     
-    .tab-content {
-      display: none;
-    }
-    
-    .tab-content.active {
-      display: block;
-    }
-    
-    /* Loading */
     .loading {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5);
       z-index: 1000;
       justify-content: center;
       align-items: center;
     }
     
-    .loading.show {
-      display: flex;
-    }
+    .loading.show { display: flex; }
     
     .spinner {
       width: 50px;
@@ -379,11 +251,8 @@
       animation: spin 1s linear infinite;
     }
     
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -399,48 +268,94 @@
       z-index: 1001;
     }
     
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.error { background: var(--error); }
+    .toast.warning { background: var(--warning); }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
     }
     
-    .toast.error {
-      background: var(--error);
+    .modal.show { display: flex; }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
     }
     
-    /* Responsive */
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .modal-header h3 { color: var(--primary); }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+    
+    .borrador-item {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .borrador-item:hover { background: #f8fafc; }
+    
+    .borrador-info h4 { margin-bottom: 5px; }
+    .borrador-info small { color: var(--text-light); }
+    
+    .presuncion-alert {
+      background: #fef3cd;
+      border: 1px solid var(--warning);
+      color: #856404;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: none;
+    }
+    
+    .presuncion-alert.show { display: block; }
+    
+    .presuncion-valor {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--primary);
+      background: #e8f4fd;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    
     @media (max-width: 768px) {
-      .container {
-        padding: 10px;
-      }
-      
-      .section {
-        padding: 15px;
-      }
-      
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .btn-group {
-        flex-direction: column;
-      }
-      
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-    
-    /* Print */
-    @media print {
-      header, .btn-group, .tabs {
-        display: none;
-      }
-      
-      .section {
-        break-inside: avoid;
-      }
+      .container { padding: 10px; }
+      .section { padding: 15px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .btn-group { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -491,9 +406,7 @@
           <div class="form-grid">
             <div class="form-group">
               <label>RUT</label>
-              <div class="rut-group">
-                <input type="text" name="solicitante.rut" placeholder="12345678-9" maxlength="12">
-              </div>
+              <input type="text" name="solicitante.rut" placeholder="12345678-9" maxlength="12">
             </div>
             <div class="form-group">
               <label>Nacionalidad</label>
@@ -790,10 +703,10 @@
       <div id="tab-herederos" class="tab-content">
         <div class="section">
           <h2 class="section-title">Datos de los Herederos</h2>
-          <p style="color: var(--text-light); margin-bottom: 15px;">Ingrese los datos de todos los herederos (máximo 20). Use el botón "Agregar Heredero" para añadir más filas.</p>
+          <p style="color: var(--text-light); margin-bottom: 15px;">Ingrese los datos de todos los herederos. Sin límite de cantidad.</p>
           
-          <div class="herederos-container">
-            <table class="herederos-table" id="herederosTable">
+          <div class="bienes-container">
+            <table class="bienes-table" id="herederosTable">
               <thead>
                 <tr>
                   <th style="width:30px">N°</th>
@@ -812,9 +725,7 @@
                   <th style="width:40px"></th>
                 </tr>
               </thead>
-              <tbody id="herederosBody">
-                <!-- Filas dinámicas -->
-              </tbody>
+              <tbody id="herederosBody"></tbody>
             </table>
           </div>
           
@@ -859,157 +770,181 @@
             <div class="form-group">
               <label>¿Aplica Presunción 20% Menaje?</label>
               <div class="radio-group">
-                <label><input type="radio" name="presuncion_20" value="1"> Sí</label>
-                <label><input type="radio" name="presuncion_20" value="2" checked> No</label>
+                <label><input type="radio" name="presuncion_20" value="1" id="presuncion_si" onchange="togglePresuncion()"> Sí</label>
+                <label><input type="radio" name="presuncion_20" value="2" id="presuncion_no" checked onchange="togglePresuncion()"> No</label>
               </div>
             </div>
+          </div>
+          
+          <div class="presuncion-alert" id="presuncionAlert">
+            ⚠️ <strong>Presunción 20% Activada:</strong> El menaje se calculará automáticamente como el 20% del valor del primer bien raíz.
+            <div class="presuncion-valor" id="presuncionValor">
+              Valor calculado: $0 (Agregue un bien raíz para calcular)
+            </div>
+            <p style="margin-top: 10px; font-size: 0.85rem;">La sección B2 (Menaje) quedará deshabilitada.</p>
           </div>
         </div>
         
         <!-- Bienes Raíces -->
         <div class="section">
-          <h2 class="section-title">A1. Bienes Raíces</h2>
+          <h2 class="section-title">A1. Bienes Raíces (sin límite)</h2>
           <p style="color: var(--text-light); margin-bottom: 10px; font-size: 0.85rem;">
             Tipo: A = Agrícola, N = No Agrícola | P/S: P = Bien Propio, S = Bien Social
           </p>
-          <table class="bienes-table" id="bienesRaicesTable">
-            <thead>
-              <tr>
-                <th>N°</th>
-                <th>Tipo</th>
-                <th>ROL SII</th>
-                <th>Comuna</th>
-                <th>F. Adquisición</th>
-                <th>Fojas</th>
-                <th>N° CBR</th>
-                <th>Año CBR</th>
-                <th>Conservador</th>
-                <th>P/S</th>
-                <th>Valoración $</th>
-                <th>Exención $</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="bienesRaicesBody"></tbody>
-            <tfoot>
-              <tr class="total-row">
-                <td colspan="10" style="text-align:right"><strong>TOTAL BIENES RAÍCES:</strong></td>
-                <td id="totalBienesRaices">$0</td>
-                <td id="totalExencionBR">$0</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
+          <div class="bienes-container">
+            <table class="bienes-table" id="bienesRaicesTable">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Tipo</th>
+                  <th>ROL SII</th>
+                  <th>Comuna</th>
+                  <th>F. Adquisición</th>
+                  <th>Fojas</th>
+                  <th>N° CBR</th>
+                  <th>Año CBR</th>
+                  <th>Conservador</th>
+                  <th>P/S</th>
+                  <th>Valoración $</th>
+                  <th>Exención $</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="bienesRaicesBody"></tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="10" style="text-align:right"><strong>TOTAL BIENES RAÍCES:</strong></td>
+                  <td id="totalBienesRaices">$0</td>
+                  <td id="totalExencionBR">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
           <button type="button" class="btn btn-add" onclick="agregarBienRaiz()">➕ Agregar Bien Raíz</button>
         </div>
         
         <!-- Vehículos -->
         <div class="section">
-          <h2 class="section-title">B1. Bienes Muebles - Vehículos</h2>
-          <table class="bienes-table" id="vehiculosTable">
-            <thead>
-              <tr>
-                <th>N°</th>
-                <th>PPU</th>
-                <th>Código SII</th>
-                <th>Tipo</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Año</th>
-                <th>N° Identificación</th>
-                <th>P/S</th>
-                <th>Valoración $</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="vehiculosBody"></tbody>
-            <tfoot>
-              <tr class="total-row">
-                <td colspan="9" style="text-align:right"><strong>TOTAL VEHÍCULOS:</strong></td>
-                <td id="totalVehiculos">$0</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
+          <h2 class="section-title">B1. Bienes Muebles - Vehículos (sin límite)</h2>
+          <div class="bienes-container">
+            <table class="bienes-table" id="vehiculosTable">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>PPU</th>
+                  <th>Código SII</th>
+                  <th>Tipo</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Año</th>
+                  <th>N° Identificación</th>
+                  <th>P/S</th>
+                  <th>Valoración $</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="vehiculosBody"></tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="9" style="text-align:right"><strong>TOTAL VEHÍCULOS:</strong></td>
+                  <td id="totalVehiculos">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
           <button type="button" class="btn btn-add" onclick="agregarVehiculo()">➕ Agregar Vehículo</button>
         </div>
         
         <!-- Menaje -->
-        <div class="section">
-          <h2 class="section-title">B2. Bienes Muebles - Menaje</h2>
-          <table class="bienes-table" id="menajeTable">
-            <thead>
-              <tr>
-                <th style="width:40px">N°</th>
-                <th>Descripción del Bien</th>
-                <th style="width:60px">P/S</th>
-                <th style="width:120px">Valoración $</th>
-                <th style="width:40px"></th>
-              </tr>
-            </thead>
-            <tbody id="menajeBody"></tbody>
-            <tfoot>
-              <tr class="total-row">
-                <td colspan="3" style="text-align:right"><strong>TOTAL MENAJE:</strong></td>
-                <td id="totalMenaje">$0</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
-          <button type="button" class="btn btn-add" onclick="agregarMenaje()">➕ Agregar Menaje</button>
+        <div class="section" id="menajeSection">
+          <h2 class="section-title">B2. Bienes Muebles - Menaje (sin límite)</h2>
+          <div class="bienes-container">
+            <table class="bienes-table" id="menajeTable">
+              <thead>
+                <tr>
+                  <th style="width:40px">N°</th>
+                  <th>Descripción del Bien</th>
+                  <th style="width:60px">P/S</th>
+                  <th style="width:120px">Valoración $</th>
+                  <th style="width:40px"></th>
+                </tr>
+              </thead>
+              <tbody id="menajeBody"></tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="3" style="text-align:right"><strong>TOTAL MENAJE:</strong></td>
+                  <td id="totalMenaje">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <button type="button" class="btn btn-add" onclick="agregarMenaje()" id="btnAgregarMenaje">➕ Agregar Menaje</button>
         </div>
         
         <!-- Otros Bienes Muebles -->
         <div class="section">
-          <h2 class="section-title">C2. Otros Bienes Muebles (Negocios, Empresas, Derechos, Cuotas)</h2>
-          <table class="bienes-table" id="otrosMueblesTable">
-            <thead>
-              <tr>
-                <th style="width:40px">N°</th>
-                <th>Descripción del Bien</th>
-                <th style="width:60px">P/S</th>
-                <th style="width:120px">Valoración $</th>
-                <th style="width:40px"></th>
-              </tr>
-            </thead>
-            <tbody id="otrosMueblesBody"></tbody>
-            <tfoot>
-              <tr class="total-row">
-                <td colspan="3" style="text-align:right"><strong>TOTAL OTROS MUEBLES:</strong></td>
-                <td id="totalOtrosMuebles">$0</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
+          <h2 class="section-title">C2. Otros Bienes Muebles (sin límite)</h2>
+          <p style="color: var(--text-light); margin-bottom: 10px; font-size: 0.85rem;">
+            Negocios, Empresas, Derechos, Cuotas, etc.
+          </p>
+          <div class="bienes-container">
+            <table class="bienes-table" id="otrosMueblesTable">
+              <thead>
+                <tr>
+                  <th style="width:40px">N°</th>
+                  <th>Descripción del Bien</th>
+                  <th style="width:60px">P/S</th>
+                  <th style="width:120px">Valoración $</th>
+                  <th style="width:40px"></th>
+                </tr>
+              </thead>
+              <tbody id="otrosMueblesBody"></tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="3" style="text-align:right"><strong>TOTAL OTROS MUEBLES:</strong></td>
+                  <td id="totalOtrosMuebles">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
           <button type="button" class="btn btn-add" onclick="agregarOtroMueble()">➕ Agregar Otro Bien Mueble</button>
         </div>
         
         <!-- Otros Bienes (acciones, valores) -->
         <div class="section">
-          <h2 class="section-title">C3. Otros Bienes (Acciones, Valores, Depósitos, Bonos)</h2>
-          <table class="bienes-table" id="otrosBienesTable">
-            <thead>
-              <tr>
-                <th style="width:40px">N°</th>
-                <th>Descripción</th>
-                <th>Institución</th>
-                <th>N° Certificado</th>
-                <th style="width:50px">P/S</th>
-                <th style="width:100px">Valoración $</th>
-                <th style="width:100px">Exención $</th>
-                <th style="width:40px"></th>
-              </tr>
-            </thead>
-            <tbody id="otrosBienesBody"></tbody>
-            <tfoot>
-              <tr class="total-row">
-                <td colspan="5" style="text-align:right"><strong>TOTAL OTROS BIENES:</strong></td>
-                <td id="totalOtrosBienes">$0</td>
-                <td id="totalExencionOB">$0</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
+          <h2 class="section-title">C3. Otros Bienes (sin límite)</h2>
+          <p style="color: var(--text-light); margin-bottom: 10px; font-size: 0.85rem;">
+            Acciones, Valores, Depósitos, Bonos, etc.
+          </p>
+          <div class="bienes-container">
+            <table class="bienes-table" id="otrosBienesTable">
+              <thead>
+                <tr>
+                  <th style="width:40px">N°</th>
+                  <th>Descripción</th>
+                  <th>Institución</th>
+                  <th>N° Certificado</th>
+                  <th style="width:50px">P/S</th>
+                  <th style="width:100px">Valoración $</th>
+                  <th style="width:100px">Exención $</th>
+                  <th style="width:40px"></th>
+                </tr>
+              </thead>
+              <tbody id="otrosBienesBody"></tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="5" style="text-align:right"><strong>TOTAL OTROS BIENES:</strong></td>
+                  <td id="totalOtrosBienes">$0</td>
+                  <td id="totalExencionOB">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
           <button type="button" class="btn btn-add" onclick="agregarOtroBien()">➕ Agregar Otro Bien</button>
         </div>
       </div>
@@ -1017,27 +952,29 @@
       <!-- TAB: PASIVOS -->
       <div id="tab-pasivos" class="tab-content">
         <div class="section">
-          <h2 class="section-title">2. Pasivos - Deudas Acreditadas</h2>
-          <table class="bienes-table" id="pasivosTable">
-            <thead>
-              <tr>
-                <th style="width:40px">N°</th>
-                <th>Descripción de la Deuda</th>
-                <th>Acreedor</th>
-                <th>N° Documento o Certificado</th>
-                <th style="width:120px">Valoración $</th>
-                <th style="width:40px"></th>
-              </tr>
-            </thead>
-            <tbody id="pasivosBody"></tbody>
-            <tfoot>
-              <tr class="total-row">
-                <td colspan="4" style="text-align:right"><strong>TOTAL PASIVOS:</strong></td>
-                <td id="totalPasivos">$0</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
+          <h2 class="section-title">2. Pasivos - Deudas Acreditadas (sin límite)</h2>
+          <div class="bienes-container">
+            <table class="bienes-table" id="pasivosTable">
+              <thead>
+                <tr>
+                  <th style="width:40px">N°</th>
+                  <th>Descripción de la Deuda</th>
+                  <th>Acreedor</th>
+                  <th>N° Documento o Certificado</th>
+                  <th style="width:120px">Valoración $</th>
+                  <th style="width:40px"></th>
+                </tr>
+              </thead>
+              <tbody id="pasivosBody"></tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="4" style="text-align:right"><strong>TOTAL PASIVOS:</strong></td>
+                  <td id="totalPasivos">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
           <button type="button" class="btn btn-add" onclick="agregarPasivo()">➕ Agregar Pasivo</button>
         </div>
         
@@ -1080,10 +1017,10 @@
           <button type="submit" class="btn btn-primary">
             📄 Generar PDF
           </button>
-          <button type="button" class="btn btn-secondary" onclick="guardarBorrador()">
+          <button type="button" class="btn btn-secondary" onclick="mostrarModalGuardar()">
             💾 Guardar Borrador
           </button>
-          <button type="button" class="btn btn-outline" onclick="cargarBorrador()">
+          <button type="button" class="btn btn-outline" onclick="mostrarModalCargar()">
             📂 Cargar Borrador
           </button>
           <button type="button" class="btn btn-outline" onclick="limpiarFormulario()">
@@ -1092,6 +1029,38 @@
         </div>
       </div>
     </form>
+  </div>
+  
+  <!-- Modal Guardar Borrador -->
+  <div class="modal" id="modalGuardar">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>💾 Guardar Borrador</h3>
+        <button class="modal-close" onclick="cerrarModal('modalGuardar')">&times;</button>
+      </div>
+      <div class="form-group">
+        <label>Nombre del borrador (opcional)</label>
+        <input type="text" id="nombreBorrador" placeholder="Ej: Posesión Efectiva - García">
+        <small style="color: var(--text-light);">Si no ingresa nombre, se usará el apellido del causante</small>
+      </div>
+      <div class="btn-group" style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="guardarBorrador()">💾 Guardar</button>
+        <button class="btn btn-outline" onclick="cerrarModal('modalGuardar')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Cargar Borrador -->
+  <div class="modal" id="modalCargar">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📂 Cargar Borrador</h3>
+        <button class="modal-close" onclick="cerrarModal('modalCargar')">&times;</button>
+      </div>
+      <div id="listaBorradores">
+        <p style="text-align: center; color: var(--text-light);">Cargando borradores...</p>
+      </div>
+    </div>
   </div>
   
   <!-- Loading overlay -->
@@ -1103,7 +1072,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // Variables globales
+    // Variables globales - SIN LÍMITES
     let herederoCount = 0;
     let bienRaizCount = 0;
     let vehiculoCount = 0;
@@ -1114,10 +1083,8 @@
     
     // Inicialización
     document.addEventListener('DOMContentLoaded', () => {
-      // Agregar primera fila de herederos
       agregarHeredero();
       
-      // Configurar tabs
       document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
           document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1127,20 +1094,47 @@
         });
       });
       
-      // Configurar formulario
       document.getElementById('posesionForm').addEventListener('submit', generarPDF);
       
-      // Establecer fecha actual
       const hoy = new Date().toISOString().split('T')[0];
       document.querySelector('input[name="fecha"]').value = hoy;
+      
+      togglePresuncion();
     });
     
-    // Funciones para agregar filas dinámicas
-    function agregarHeredero() {
-      if (herederoCount >= 20) {
-        showToast('Máximo 20 herederos permitidos', true);
-        return;
+    // Función para toggle presunción 20%
+    function togglePresuncion() {
+      const usaPresuncion = document.getElementById('presuncion_si').checked;
+      const menajeSection = document.getElementById('menajeSection');
+      const presuncionAlert = document.getElementById('presuncionAlert');
+      
+      if (usaPresuncion) {
+        menajeSection.classList.add('disabled');
+        presuncionAlert.classList.add('show');
+        calcularPresuncion20();
+      } else {
+        menajeSection.classList.remove('disabled');
+        presuncionAlert.classList.remove('show');
       }
+      
+      calcularTotales();
+    }
+    
+    // Calcular valor presunción 20%
+    function calcularPresuncion20() {
+      const primerBRInput = document.querySelector('[name="bienes_raices[0].valoracion"]');
+      const valorPrimerBR = primerBRInput ? (parseFloat(primerBRInput.value) || 0) : 0;
+      const valorPresuncion = Math.round(valorPrimerBR * 0.20);
+      
+      document.getElementById('presuncionValor').innerHTML = valorPrimerBR > 0 
+        ? `Valor calculado: <strong>$${formatMoney(valorPresuncion)}</strong> (20% de $${formatMoney(valorPrimerBR)})`
+        : 'Valor calculado: $0 (Agregue un bien raíz para calcular)';
+      
+      return valorPresuncion;
+    }
+    
+    // Funciones para agregar filas dinámicas - SIN LÍMITES
+    function agregarHeredero() {
       herederoCount++;
       const tbody = document.getElementById('herederosBody');
       const row = document.createElement('tr');
@@ -1157,23 +1151,13 @@
         <td><input type="text" name="herederos[${herederoCount-1}].domicilio"></td>
         <td><input type="text" name="herederos[${herederoCount-1}].comuna"></td>
         <td><input type="text" name="herederos[${herederoCount-1}].region"></td>
-        <td>
-          <select name="herederos[${herederoCount-1}].cedente">
-            <option value="">-</option>
-            <option value="S">Sí</option>
-            <option value="N">No</option>
-          </select>
-        </td>
+        <td><select name="herederos[${herederoCount-1}].cedente"><option value="">-</option><option value="S">Sí</option><option value="N">No</option></select></td>
         <td><button type="button" class="btn btn-remove" onclick="eliminarFila(this, 'heredero')">✕</button></td>
       `;
       tbody.appendChild(row);
     }
     
     function agregarBienRaiz() {
-      if (bienRaizCount >= 4) {
-        showToast('Máximo 4 bienes raíces en este formulario', true);
-        return;
-      }
       bienRaizCount++;
       const tbody = document.getElementById('bienesRaicesBody');
       const row = document.createElement('tr');
@@ -1196,10 +1180,6 @@
     }
     
     function agregarVehiculo() {
-      if (vehiculoCount >= 4) {
-        showToast('Máximo 4 vehículos en este formulario', true);
-        return;
-      }
       vehiculoCount++;
       const tbody = document.getElementById('vehiculosBody');
       const row = document.createElement('tr');
@@ -1220,10 +1200,6 @@
     }
     
     function agregarMenaje() {
-      if (menajeCount >= 11) {
-        showToast('Máximo 11 items de menaje en este formulario', true);
-        return;
-      }
       menajeCount++;
       const tbody = document.getElementById('menajeBody');
       const row = document.createElement('tr');
@@ -1238,10 +1214,6 @@
     }
     
     function agregarOtroMueble() {
-      if (otroMuebleCount >= 4) {
-        showToast('Máximo 4 otros bienes muebles en este formulario', true);
-        return;
-      }
       otroMuebleCount++;
       const tbody = document.getElementById('otrosMueblesBody');
       const row = document.createElement('tr');
@@ -1256,10 +1228,6 @@
     }
     
     function agregarOtroBien() {
-      if (otroBienCount >= 3) {
-        showToast('Máximo 3 otros bienes en este formulario', true);
-        return;
-      }
       otroBienCount++;
       const tbody = document.getElementById('otrosBienesBody');
       const row = document.createElement('tr');
@@ -1277,10 +1245,6 @@
     }
     
     function agregarPasivo() {
-      if (pasivoCount >= 4) {
-        showToast('Máximo 4 pasivos en este formulario', true);
-        return;
-      }
       pasivoCount++;
       const tbody = document.getElementById('pasivosBody');
       const row = document.createElement('tr');
@@ -1303,28 +1267,31 @@
     
     function renumerarFilas(tipo) {
       const mapeo = {
-        'heredero': { body: 'herederosBody', counter: () => herederoCount = 0 },
-        'bienRaiz': { body: 'bienesRaicesBody', counter: () => bienRaizCount = 0 },
-        'vehiculo': { body: 'vehiculosBody', counter: () => vehiculoCount = 0 },
-        'menaje': { body: 'menajeBody', counter: () => menajeCount = 0 },
-        'otroMueble': { body: 'otrosMueblesBody', counter: () => otroMuebleCount = 0 },
-        'otroBien': { body: 'otrosBienesBody', counter: () => otroBienCount = 0 },
-        'pasivo': { body: 'pasivosBody', counter: () => pasivoCount = 0 }
+        'heredero': { body: 'herederosBody', counter: 'herederoCount', prefix: 'herederos' },
+        'bienRaiz': { body: 'bienesRaicesBody', counter: 'bienRaizCount', prefix: 'bienes_raices' },
+        'vehiculo': { body: 'vehiculosBody', counter: 'vehiculoCount', prefix: 'vehiculos' },
+        'menaje': { body: 'menajeBody', counter: 'menajeCount', prefix: 'menaje' },
+        'otroMueble': { body: 'otrosMueblesBody', counter: 'otroMuebleCount', prefix: 'otros_muebles' },
+        'otroBien': { body: 'otrosBienesBody', counter: 'otroBienCount', prefix: 'otros_bienes' },
+        'pasivo': { body: 'pasivosBody', counter: 'pasivoCount', prefix: 'pasivos' }
       };
       
       if (!mapeo[tipo]) return;
       
-      mapeo[tipo].counter();
-      const rows = document.getElementById(mapeo[tipo].body).querySelectorAll('tr');
+      const config = mapeo[tipo];
+      const rows = document.getElementById(config.body).querySelectorAll('tr');
+      
+      window[config.counter] = rows.length;
+      
       rows.forEach((row, i) => {
         row.querySelector('td:first-child').textContent = i + 1;
-        if (tipo === 'heredero') herederoCount++;
-        else if (tipo === 'bienRaiz') bienRaizCount++;
-        else if (tipo === 'vehiculo') vehiculoCount++;
-        else if (tipo === 'menaje') menajeCount++;
-        else if (tipo === 'otroMueble') otroMuebleCount++;
-        else if (tipo === 'otroBien') otroBienCount++;
-        else if (tipo === 'pasivo') pasivoCount++;
+        row.querySelectorAll('input, select').forEach(input => {
+          const name = input.getAttribute('name');
+          if (name) {
+            const newName = name.replace(/\[\d+\]/, `[${i}]`);
+            input.setAttribute('name', newName);
+          }
+        });
       });
     }
     
@@ -1337,7 +1304,6 @@
       let totalOB = 0, totalExOB = 0;
       let totalPas = 0;
       
-      // Bienes raíces
       document.querySelectorAll('[name^="bienes_raices"][name$="].valoracion"]').forEach(inp => {
         totalBR += parseFloat(inp.value) || 0;
       });
@@ -1345,22 +1311,24 @@
         totalExBR += parseFloat(inp.value) || 0;
       });
       
-      // Vehículos
       document.querySelectorAll('[name^="vehiculos"][name$="].valoracion"]').forEach(inp => {
         totalVeh += parseFloat(inp.value) || 0;
       });
       
-      // Menaje
-      document.querySelectorAll('[name^="menaje"][name$="].valoracion"]').forEach(inp => {
-        totalMenaje += parseFloat(inp.value) || 0;
-      });
+      // Menaje - verificar si usa presunción
+      const usaPresuncion = document.getElementById('presuncion_si').checked;
+      if (usaPresuncion) {
+        totalMenaje = calcularPresuncion20();
+      } else {
+        document.querySelectorAll('[name^="menaje"][name$="].valoracion"]').forEach(inp => {
+          totalMenaje += parseFloat(inp.value) || 0;
+        });
+      }
       
-      // Otros muebles
       document.querySelectorAll('[name^="otros_muebles"][name$="].valoracion"]').forEach(inp => {
         totalOM += parseFloat(inp.value) || 0;
       });
       
-      // Otros bienes
       document.querySelectorAll('[name^="otros_bienes"][name$="].valoracion"]').forEach(inp => {
         totalOB += parseFloat(inp.value) || 0;
       });
@@ -1368,32 +1336,29 @@
         totalExOB += parseFloat(inp.value) || 0;
       });
       
-      // Pasivos
       document.querySelectorAll('[name^="pasivos"][name$="].valoracion"]').forEach(inp => {
         totalPas += parseFloat(inp.value) || 0;
       });
       
-      // Actualizar UI
-      document.getElementById('totalBienesRaices').textContent = formatMoney(totalBR);
-      document.getElementById('totalExencionBR').textContent = formatMoney(totalExBR);
-      document.getElementById('totalVehiculos').textContent = formatMoney(totalVeh);
-      document.getElementById('totalMenaje').textContent = formatMoney(totalMenaje);
-      document.getElementById('totalOtrosMuebles').textContent = formatMoney(totalOM);
-      document.getElementById('totalOtrosBienes').textContent = formatMoney(totalOB);
-      document.getElementById('totalExencionOB').textContent = formatMoney(totalExOB);
-      document.getElementById('totalPasivos').textContent = formatMoney(totalPas);
+      document.getElementById('totalBienesRaices').textContent = '$' + formatMoney(totalBR);
+      document.getElementById('totalExencionBR').textContent = '$' + formatMoney(totalExBR);
+      document.getElementById('totalVehiculos').textContent = '$' + formatMoney(totalVeh);
+      document.getElementById('totalMenaje').textContent = '$' + formatMoney(totalMenaje);
+      document.getElementById('totalOtrosMuebles').textContent = '$' + formatMoney(totalOM);
+      document.getElementById('totalOtrosBienes').textContent = '$' + formatMoney(totalOB);
+      document.getElementById('totalExencionOB').textContent = '$' + formatMoney(totalExOB);
+      document.getElementById('totalPasivos').textContent = '$' + formatMoney(totalPas);
       
-      // Resumen
       const totalActivos = totalBR + totalVeh + totalMenaje + totalOM + totalOB;
       const masa = totalActivos - totalPas;
       
-      document.getElementById('resumenActivos').value = formatMoney(totalActivos);
-      document.getElementById('resumenPasivos').value = formatMoney(totalPas);
-      document.getElementById('resumenMasa').value = formatMoney(masa);
+      document.getElementById('resumenActivos').value = '$' + formatMoney(totalActivos);
+      document.getElementById('resumenPasivos').value = '$' + formatMoney(totalPas);
+      document.getElementById('resumenMasa').value = '$' + formatMoney(masa);
     }
     
     function formatMoney(value) {
-      return '$' + Math.round(value).toLocaleString('es-CL');
+      return Math.round(value).toLocaleString('es-CL');
     }
     
     // Obtener datos del formulario
@@ -1402,10 +1367,8 @@
       const formData = new FormData(form);
       const data = {};
       
-      // Procesar campos simples y anidados
       for (const [key, value] of formData.entries()) {
         if (key.includes('[')) {
-          // Campos de arrays (herederos, bienes, etc.)
           const match = key.match(/^(\w+)\[(\d+)\]\.(\w+)$/);
           if (match) {
             const [, arrayName, index, field] = match;
@@ -1414,7 +1377,6 @@
             data[arrayName][index][field] = value;
           }
         } else if (key.includes('.')) {
-          // Campos anidados (solicitante.nombres, etc.)
           const parts = key.split('.');
           if (!data[parts[0]]) data[parts[0]] = {};
           data[parts[0]][parts[1]] = value;
@@ -1423,7 +1385,6 @@
         }
       }
       
-      // Limpiar arrays (quitar elementos vacíos)
       ['herederos', 'bienes_raices', 'vehiculos', 'menaje', 'otros_muebles', 'otros_bienes', 'pasivos'].forEach(arrayName => {
         if (data[arrayName]) {
           data[arrayName] = data[arrayName].filter(item => item && Object.values(item).some(v => v));
@@ -1466,10 +1427,25 @@
         showToast('✅ PDF generado exitosamente');
       } catch (error) {
         console.error('Error:', error);
-        showToast('Error: ' + error.message, true);
+        showToast('Error: ' + error.message, 'error');
       } finally {
         showLoading(false);
       }
+    }
+    
+    // Modal functions
+    function mostrarModalGuardar() {
+      document.getElementById('nombreBorrador').value = '';
+      document.getElementById('modalGuardar').classList.add('show');
+    }
+    
+    function mostrarModalCargar() {
+      document.getElementById('modalCargar').classList.add('show');
+      cargarListaBorradores();
+    }
+    
+    function cerrarModal(id) {
+      document.getElementById(id).classList.remove('show');
     }
     
     // Guardar borrador
@@ -1477,75 +1453,110 @@
       showLoading(true);
       try {
         const data = getFormData();
+        const nombre = document.getElementById('nombreBorrador').value.trim();
+        
         const response = await fetch('/api/guardar-borrador', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify({ data, nombre })
         });
         
         const result = await response.json();
         if (result.success) {
           showToast('✅ Borrador guardado: ' + result.filename);
+          cerrarModal('modalGuardar');
         } else {
           throw new Error(result.error);
         }
       } catch (error) {
-        showToast('Error al guardar: ' + error.message, true);
+        showToast('Error al guardar: ' + error.message, 'error');
       } finally {
         showLoading(false);
       }
     }
     
-    // Cargar borrador
-    async function cargarBorrador() {
+    // Cargar lista de borradores
+    async function cargarListaBorradores() {
       try {
         const response = await fetch('/api/borradores');
         const borradores = await response.json();
         
+        const container = document.getElementById('listaBorradores');
+        
         if (borradores.length === 0) {
-          showToast('No hay borradores guardados', true);
+          container.innerHTML = '<p style="text-align: center; color: var(--text-light);">No hay borradores guardados</p>';
           return;
         }
         
-        const filename = prompt('Borradores disponibles:\n\n' + borradores.map((b, i) => `${i+1}. ${b.filename}`).join('\n') + '\n\nIngrese el número del borrador a cargar:');
+        container.innerHTML = borradores.map(b => `
+          <div class="borrador-item" onclick="cargarBorrador('${b.filename}')">
+            <div class="borrador-info">
+              <h4>${b.causante || 'Sin nombre'}</h4>
+              <small>📁 ${b.filename}</small><br>
+              <small>📅 ${new Date(b.modified).toLocaleString('es-CL')}</small>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); eliminarBorrador('${b.filename}')">🗑️</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        document.getElementById('listaBorradores').innerHTML = '<p style="color: var(--error);">Error al cargar borradores</p>';
+      }
+    }
+    
+    // Cargar borrador específico
+    async function cargarBorrador(filename) {
+      showLoading(true);
+      try {
+        const response = await fetch('/api/cargar-borrador/' + filename);
+        const data = await response.json();
         
-        if (!filename) return;
-        
-        const index = parseInt(filename) - 1;
-        if (isNaN(index) || index < 0 || index >= borradores.length) {
-          showToast('Número inválido', true);
-          return;
-        }
-        
-        showLoading(true);
-        const dataResponse = await fetch('/api/cargar-borrador/' + borradores[index].filename);
-        const data = await dataResponse.json();
-        
-        // Llenar formulario con los datos
         llenarFormulario(data);
+        cerrarModal('modalCargar');
         showToast('✅ Borrador cargado');
       } catch (error) {
-        showToast('Error al cargar: ' + error.message, true);
+        showToast('Error al cargar: ' + error.message, 'error');
       } finally {
         showLoading(false);
+      }
+    }
+    
+    // Eliminar borrador
+    async function eliminarBorrador(filename) {
+      if (!confirm('¿Eliminar este borrador?')) return;
+      
+      try {
+        await fetch('/api/borrador/' + filename, { method: 'DELETE' });
+        showToast('Borrador eliminado');
+        cargarListaBorradores();
+      } catch (error) {
+        showToast('Error al eliminar', 'error');
       }
     }
     
     // Llenar formulario desde datos
     function llenarFormulario(data) {
+      // Limpiar tablas primero
+      ['herederosBody', 'bienesRaicesBody', 'vehiculosBody', 'menajeBody', 
+       'otrosMueblesBody', 'otrosBienesBody', 'pasivosBody'].forEach(id => {
+        document.getElementById(id).innerHTML = '';
+      });
+      herederoCount = bienRaizCount = vehiculoCount = menajeCount = otroMuebleCount = otroBienCount = pasivoCount = 0;
+      
       // Campos simples
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string') {
           const input = document.querySelector(`[name="${key}"]`);
           if (input) {
             if (input.type === 'radio') {
-              document.querySelector(`[name="${key}"][value="${data[key]}"]`).checked = true;
+              const radio = document.querySelector(`[name="${key}"][value="${data[key]}"]`);
+              if (radio) radio.checked = true;
             } else {
               input.value = data[key];
             }
           }
         } else if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
-          // Campos anidados
           Object.keys(data[key]).forEach(subKey => {
             const input = document.querySelector(`[name="${key}.${subKey}"]`);
             if (input) input.value = data[key][subKey];
@@ -1553,10 +1564,8 @@
         }
       });
       
-      // Arrays (herederos, bienes, etc.)
+      // Arrays
       if (data.herederos) {
-        document.getElementById('herederosBody').innerHTML = '';
-        herederoCount = 0;
         data.herederos.forEach((h, i) => {
           agregarHeredero();
           Object.keys(h).forEach(field => {
@@ -1566,24 +1575,91 @@
         });
       }
       
-      // Similar para otros arrays...
+      if (data.bienes_raices) {
+        data.bienes_raices.forEach((br, i) => {
+          agregarBienRaiz();
+          Object.keys(br).forEach(field => {
+            const input = document.querySelector(`[name="bienes_raices[${i}].${field}"]`);
+            if (input) input.value = br[field];
+          });
+        });
+      }
+      
+      if (data.vehiculos) {
+        data.vehiculos.forEach((v, i) => {
+          agregarVehiculo();
+          Object.keys(v).forEach(field => {
+            const input = document.querySelector(`[name="vehiculos[${i}].${field}"]`);
+            if (input) input.value = v[field];
+          });
+        });
+      }
+      
+      if (data.menaje) {
+        data.menaje.forEach((m, i) => {
+          agregarMenaje();
+          Object.keys(m).forEach(field => {
+            const input = document.querySelector(`[name="menaje[${i}].${field}"]`);
+            if (input) input.value = m[field];
+          });
+        });
+      }
+      
+      if (data.otros_muebles) {
+        data.otros_muebles.forEach((om, i) => {
+          agregarOtroMueble();
+          Object.keys(om).forEach(field => {
+            const input = document.querySelector(`[name="otros_muebles[${i}].${field}"]`);
+            if (input) input.value = om[field];
+          });
+        });
+      }
+      
+      if (data.otros_bienes) {
+        data.otros_bienes.forEach((ob, i) => {
+          agregarOtroBien();
+          Object.keys(ob).forEach(field => {
+            const input = document.querySelector(`[name="otros_bienes[${i}].${field}"]`);
+            if (input) input.value = ob[field];
+          });
+        });
+      }
+      
+      if (data.pasivos) {
+        data.pasivos.forEach((p, i) => {
+          agregarPasivo();
+          Object.keys(p).forEach(field => {
+            const input = document.querySelector(`[name="pasivos[${i}].${field}"]`);
+            if (input) input.value = p[field];
+          });
+        });
+      }
+      
+      if (!data.herederos || data.herederos.length === 0) {
+        agregarHeredero();
+      }
+      
+      togglePresuncion();
       calcularTotales();
     }
     
     // Limpiar formulario
     function limpiarFormulario() {
       if (!confirm('¿Está seguro de limpiar todo el formulario?')) return;
+      
       document.getElementById('posesionForm').reset();
-      document.getElementById('herederosBody').innerHTML = '';
-      document.getElementById('bienesRaicesBody').innerHTML = '';
-      document.getElementById('vehiculosBody').innerHTML = '';
-      document.getElementById('menajeBody').innerHTML = '';
-      document.getElementById('otrosMueblesBody').innerHTML = '';
-      document.getElementById('otrosBienesBody').innerHTML = '';
-      document.getElementById('pasivosBody').innerHTML = '';
+      ['herederosBody', 'bienesRaicesBody', 'vehiculosBody', 'menajeBody', 
+       'otrosMueblesBody', 'otrosBienesBody', 'pasivosBody'].forEach(id => {
+        document.getElementById(id).innerHTML = '';
+      });
       
       herederoCount = bienRaizCount = vehiculoCount = menajeCount = otroMuebleCount = otroBienCount = pasivoCount = 0;
       agregarHeredero();
+      
+      const hoy = new Date().toISOString().split('T')[0];
+      document.querySelector('input[name="fecha"]').value = hoy;
+      
+      togglePresuncion();
       calcularTotales();
       showToast('Formulario limpiado');
     }
@@ -1593,10 +1669,10 @@
       document.getElementById('loading').classList.toggle('show', show);
     }
     
-    function showToast(message, isError = false) {
+    function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
       toast.textContent = message;
-      toast.className = 'toast' + (isError ? ' error' : '');
+      toast.className = 'toast ' + type;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
